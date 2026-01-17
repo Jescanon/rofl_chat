@@ -147,7 +147,8 @@ async function initializeChat(token) {
         const user = await getUserProfile(token);
         userInfo.textContent = `Вы: ${user.username}`;
 
-        const wsUrl = `ws://${window.location.host}/ws?token=${token}`;
+        const protocol = window.location.protocol === 'https' ? 'wss' : 'ws';
+        const wsUrl = `${protocol}://${window.location.host}/ws?token=${token}`;
         socket = new WebSocket(wsUrl);
 
         setupSocketHandlers();
