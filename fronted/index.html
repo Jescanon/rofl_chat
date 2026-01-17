@@ -113,7 +113,7 @@
 
         try {
             if (isLoginMode) {
-                const response = await fetch('http://api/token', {
+                const response = await fetch('api/token', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: `grant_type=&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&scope=&client_id=&client_secret=`
@@ -125,7 +125,7 @@
 
                 initializeChat(data.access_token);
             } else {
-                const response = await fetch('http://api/register', {
+                const response = await fetch('api/register', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ username, password })
@@ -163,7 +163,7 @@
     }
 
     async function getUserProfile(token) {
-        const response = await fetch('http://api/users/me', {
+        const response = await fetch('api/users/me', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
