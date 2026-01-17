@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Чат с Привокзальным Сократом</title>
     <style>
-        /* Стили остались почти те же, добавил немного для шапки чата */
         @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
         :root {
             --background-color: #1a1a1a;
@@ -54,7 +53,6 @@
     </div>
 
     <div id="chat-container">
-        <!-- ВОТ НОВАЯ ШАПКА ЧАТА -->
         <div id="chat-header">
             <span id="user-info"></span>
             <button id="logout-button">Выйти</button>
@@ -66,7 +64,6 @@
     </div>
 
 <script>
-    // --- Получаем все элементы DOM ---
     const authOverlay = document.getElementById('auth-overlay');
     const mainButton = document.getElementById('main-button');
     const toggleLink = document.getElementById('toggle-link');
@@ -83,19 +80,15 @@
     let isLoginMode = true;
     let socket = null;
 
-    // --- ГЛАВНАЯ ЛОГИКА ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
     window.addEventListener('load', () => {
         const token = localStorage.getItem('accessToken');
         if (token) {
-            // Если токен есть, пытаемся сразу войти в чат
             initializeChat(token);
         } else {
-            // Если токена нет, показываем форму входа
             authOverlay.classList.remove('hidden');
         }
     });
 
-    // --- Переключение Вход/Регистрация ---
     toggleLink.addEventListener('click', () => {
         isLoginMode = !isLoginMode;
         errorMessage.textContent = '';
@@ -104,14 +97,12 @@
         toggleLink.textContent = isLoginMode ? 'Нет аккаунта? Зарегистрироваться' : 'Уже есть аккаунт? Войти';
     });
 
-    // --- Кнопка "Выйти" ---
     logoutButton.addEventListener('click', () => {
         localStorage.removeItem('accessToken');
         if(socket) socket.close();
-        window.location.reload(); // Просто перезагружаем страницу
+        window.location.reload();
     });
 
-    // --- Логика основной кнопки (Вход/Регистрация) ---
     mainButton.addEventListener('click', async () => {
         const username = usernameInput.value;
         const password = passwordInput.value;
@@ -122,7 +113,6 @@
 
         try {
             if (isLoginMode) {
-                // --- ЛОГИКА ВХОДА ---
                 const response = await fetch('http://127.0.0.1:8000/token', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -182,7 +172,6 @@
         return await response.json();
     }
 
-    // --- Настройка обработчиков WebSocket ---
     function setupSocketHandlers() {
         socket.onopen = () => addMessage('Сократ присоединился к чату.', 'assistant');
         socket.onmessage = (event) => {
