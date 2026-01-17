@@ -113,7 +113,7 @@
 
         try {
             if (isLoginMode) {
-                const response = await fetch('http://127.0.0.1:8000/token', {
+                const response = await fetch('http://api/token', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: `grant_type=&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&scope=&client_id=&client_secret=`
@@ -125,7 +125,7 @@
 
                 initializeChat(data.access_token);
             } else {
-                const response = await fetch('http://127.0.0.1:8000/register', {
+                const response = await fetch('http://api/register', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ username, password })
@@ -150,7 +150,7 @@
             authOverlay.classList.add('hidden');
             chatContainer.classList.add('visible');
 
-            const wsUrl = `ws://127.0.0.1:8000/ws?token=${token}`;
+            const wsUrl = `ws://${window.location.host}/ws?token=${token}`;
             socket = new WebSocket(wsUrl);
             setupSocketHandlers();
 
@@ -163,7 +163,7 @@
     }
 
     async function getUserProfile(token) {
-        const response = await fetch('http://127.0.0.1:8000/users/me', {
+        const response = await fetch('http://api/users/me', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
