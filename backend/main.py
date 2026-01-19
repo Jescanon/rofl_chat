@@ -5,7 +5,7 @@ from backend.routers.registration import router
 from backend.routers.user import router as user_router
 from backend.routers.websockets import router as websockets_router
 
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
 app.add_middleware(
     CORSMiddleware,
